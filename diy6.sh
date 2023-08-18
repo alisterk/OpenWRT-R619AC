@@ -4,7 +4,7 @@ sed -i 's/wireless.${name}.disabled=1/wireless.${name}.disabled=0/g' ./package/k
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' ./package/base-files/files/etc/shadow
 #添加第三方软件源
 sed -i 's/option check_signature 1/option check_signature 0/g' ./package/system/opkg/files/opkg-smime.conf
-echo src/gz openwrt_kiddin9 https://op.supes.top/packages/arm_cortex-a7_neon-vfpv4 >> ./package/system/opkg/files/customfeeds.conf
+echo src/gz openwrt_kiddin9 https://dl.openwrt.ai/packages-23.05/arm_cortex-a7_neon-vfpv4 >> ./package/system/opkg/files/customfeeds.conf
 #修改时区
 sed -i 's/timezone:string:UTC'/timezone:string:CST-8'/g' ./package/base-files/files/etc/init.d/system
 sed -i 's/zonename:string'/zonename:string:Asia'#/'Shanghai'/g' ./package/base-files/files/etc/init.d/system
