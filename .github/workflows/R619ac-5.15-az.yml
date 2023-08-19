@@ -8,21 +8,22 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build imm R619ac-5.4-az
+name: Build imm R619ac-5.15-az
+
 on:
   repository_dispatch:
   workflow_dispatch:
   #schedule:
- # schedule:
+  #schedule:
    #- cron: 10 */12 * * *
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: https://github.com/x-wrt/x-wrt.git
   REPO_BRANCH: master
-  FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: 5.4-az.config
-  DIY_P1_SH: diy-part1.sh
-  DIY_P2_SH: diy-part2-az.sh
+  FEEDS_CONF: 510feeds.conf.default
+  CONFIG_FILE: 5.10-az.config
+  DIY_P1_SH: diy5.sh
+  DIY_P2_SH: diy6.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_WETRANSFER: false
@@ -84,6 +85,7 @@ jobs:
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
+        
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: 更新feeds
@@ -164,7 +166,7 @@ jobs:
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         touch release.txt
-        echo "竞斗云openwrt-5.4" >> release.txt
+        echo "竞斗云openwrt-5.15" >> release.txt
         echo "::set-output name=status::success"
 
     - name: 发布固件
@@ -181,7 +183,7 @@ jobs:
       uses: GitRML/delete-workflow-runs@main
       with:
         retain_days: 3
-        keep_minimum_runs: 30
+        keep_minimum_runs: 20
 
     - name: 清理Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
