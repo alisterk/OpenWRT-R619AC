@@ -101,8 +101,14 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        pwd
+        ls -l
         chmod +x $DIY_P2_SH
-        cd openwrt
+        cd openwrt 
+        pwd
+        ls -l       
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        cat DEVICE_NAME
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: 下载软件包
@@ -117,7 +123,11 @@ jobs:
     - name: 编译固件
       id: compile
       run: |
+        pwd
+        ls -l
         cd openwrt
+        pwd
+        ls -l
         echo -e "$(nproc) thread compile"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
