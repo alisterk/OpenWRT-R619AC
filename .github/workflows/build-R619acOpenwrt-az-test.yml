@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build imm R619ac-5.4-az
+name: Build imm R619ac-5.4-az-test
 on:
   repository_dispatch:
   workflow_dispatch:
