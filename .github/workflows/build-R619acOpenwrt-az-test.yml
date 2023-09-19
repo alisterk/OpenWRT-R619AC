@@ -114,9 +114,14 @@ jobs:
     - name: 下载软件包
       id: package
       run: |
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        cat DEVICE_NAME
         cd openwrt
-        make defconfig
-        make download -j8
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        cat DEVICE_NAME
+        make defconfig 
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        cat DEVICE_NAME
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
@@ -127,7 +132,7 @@ jobs:
         ls -l
         cd openwrt
         pwd
-        ls -la
+        ls -la    
         echo -e "$(nproc) thread compile"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
