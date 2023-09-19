@@ -89,13 +89,13 @@ jobs:
     - name: 加载自定义配置
       run: |
         [ -e files ] && mv files openwrt/files
-        pwd
-        ls -l
+        # pwd
+        # ls -l
         [ -e $CONFIG_FILE ] && cp $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt 
-        pwd
-        ls -la       
+        # pwd
+        # ls -la       
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
         $GITHUB_WORKSPACE/$DIY_P2_SH
@@ -124,7 +124,7 @@ jobs:
         cd openwrt
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
-        make defconfig 
+        make -d V=s defconfig 
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
        # find dl -size -1024c -exec ls -l {} \;
@@ -133,14 +133,14 @@ jobs:
     - name: 编译固件
       id: compile
       run: |
-        pwd
-        ls -l
+        # pwd
+        # ls -l
         cd openwrt
-        pwd
-        ls -la    
+        # pwd
+        # ls -la    
         echo -e "$(nproc) thread compile"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
-        cat .config
+       # cat .config
 
      
