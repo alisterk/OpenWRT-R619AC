@@ -86,17 +86,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: 更新feeds
-      run: |
-           cd openwrt
-           ./scripts/feeds update -a
-           rm -rf package/independent/lte-modem-p2w-r619ac
-           #rm -rf feeds/kiddin9/dns2tcp
-           #git clone https://github.com/Mike-qian/dns2tcp.git feeds/kiddin9/dns2tcp
-
-    - name: 安装feeds
-      run: cd openwrt && ./scripts/feeds install -a
-    
     - name: 加载自定义配置
       run: |
         [ -e files ] && mv files openwrt/files
@@ -111,6 +100,21 @@ jobs:
         cat DEVICE_NAME
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
+    - name: 更新feeds
+      run: |
+           cd openwrt
+           ./scripts/feeds update -a
+           rm -rf package/independent/lte-modem-p2w-r619ac
+           #rm -rf feeds/kiddin9/dns2tcp
+           #git clone https://github.com/Mike-qian/dns2tcp.git feeds/kiddin9/dns2tcp
+
+    - name: 安装feeds
+      run: |
+           cd openwrt 
+           ./scripts/feeds install -a
+    
+
+
     - name: 下载软件包
       id: package
       run: |
@@ -122,8 +126,8 @@ jobs:
         make defconfig 
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         cat DEVICE_NAME
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+       # find dl -size -1024c -exec ls -l {} \;
+       # find dl -size -1024c -exec rm -f {} \;
 
     - name: 编译固件
       id: compile
